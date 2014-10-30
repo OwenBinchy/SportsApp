@@ -1839,7 +1839,7 @@ containing a value of this type.
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     
  Theme.AppCompat.Light 
-
+ android:style/Theme.Holo.Light
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
@@ -1849,6 +1849,8 @@ containing a value of this type.
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
  Theme.AppCompat.Light 
+        	 android:style/Theme.Holo.Light
+        
  API 11 theme customizations can go here. 
 
         Base application theme for API 14+. This theme completely replaces
@@ -1856,6 +1858,8 @@ containing a value of this type.
         res/values-v11/styles.xml on API 14+ devices.
     
  Theme.AppCompat.Light.DarkActionBar 
+        	android:style/Theme.Holo.Light.DarkActionBar
+        
  API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f0b00eb;
