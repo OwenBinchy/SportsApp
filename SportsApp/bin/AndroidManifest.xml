@@ -26,10 +26,11 @@
         <activity
             android:name=".DisplayMessageActivity"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName="com.example.SportsApp.MainActivity" >
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.SportsApp.MainActivity" />
+                android:value=".MainActivity" />
+            <!-- com.example.SportsApp -->
         </activity>
     </application>
 
