@@ -1824,6 +1824,7 @@ containing a value of this type.
         public static final int action_search=0x7f0a0019;
         public static final int action_settings=0x7f0a0012;
         public static final int app_name=0x7f0a000f;
+        public static final int button_login=0x7f0a001a;
         public static final int button_send=0x7f0a0011;
         public static final int edit_message=0x7f0a0010;
         public static final int edit_password=0x7f0a0018;
