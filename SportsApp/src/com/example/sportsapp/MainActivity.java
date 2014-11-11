@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
 //		}
 //        jsonobject = JSONfunctions.getJSONfromURL("http://csiserver.ucd.ie/~09333541/sportsapp/profiles/checkProfileExists.php");
         
-        new JSONfunctions().execute("http://csiserver.ucd.ie/~09333541/sportsapp/profiles/checkProfileExists.php");
+        
     }
 
     public void sendMessage(View view) {
@@ -49,12 +50,29 @@ public class MainActivity extends ActionBarActivity {
         // Do something in response to button
     	Intent intent = new Intent(this, DisplayMessageActivity.class);
     	EditText username = (EditText) findViewById(R.id.username);
-    	EditText password = (EditText) findViewById(R.id.password);
+//    	EditText password = (EditText) findViewById(R.id.password);
 	
-    	String message = username.getText().toString();
+    	Log.d("log_tag","Attempting login..");
+    	
+    	String message = null;
+    	JSONObject request = new JSONObject();
+    	 
+    	try {
+			request.put("userID", username.getText().toString());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	Log.d("log_tag","Request: " + request.toString());
+    	
+    	JSONfunctions.setRequestObject(request);
+    	
+    	new JSONfunctions().execute("http://csiserver.ucd.ie/~09333541/sportsapp/profiles/checkProfileExists.php");
 
-    	JSONObject jsonobject;
-    	jsonobject = JSONfunctions.getJSONobject();
+    	JSONObject jsonobject = null;
+    	while (jsonobject == null){
+    		jsonobject = JSONfunctions.getResponseObject();
+    	}
     	try {
 			message = jsonobject.getString("message");
 		} catch (JSONException e) {

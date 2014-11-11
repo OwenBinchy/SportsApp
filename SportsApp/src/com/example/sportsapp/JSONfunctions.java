@@ -3,21 +3,17 @@ package com.example.sportsapp;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -28,7 +24,10 @@ import android.util.Log;
 
 
 public class JSONfunctions extends AsyncTask<String, Integer, Long> {
-	static JSONObject JArray;
+	private static JSONObject Response = null;
+	private static JSONObject Request = null;
+	
+	
 	@Override
 	protected Long doInBackground(String... urls) {
 		// TODO Auto-generated method stub
@@ -41,21 +40,15 @@ public class JSONfunctions extends AsyncTask<String, Integer, Long> {
 	        HttpClient httpclient = new DefaultHttpClient();
 	        HttpPost httppost = new HttpPost(urls[0]);
 	        
-	     // Request parameters and other properties.
-//	        List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-//	        params.add(new BasicNameValuePair("userID", "12345678"));
-//	        params.add(new BasicNameValuePair("param-2", "Hello!"));
-//	        httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+//	        StringEntity params =new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
+//	        StringEntity params =new StringEntity("{\"userID\":\"12345678\"} ");
 	        
-	     // Request parameters and other properties.
-	        List<NameValuePair> params = new ArrayList<NameValuePair>();
-	        params.add(new BasicNameValuePair("userID", "12345678"));
-	        try {
-	            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-	        } catch (UnsupportedEncodingException e) {
-	            // writing error to Log
-	            e.printStackTrace();
-	        }
+	        Log.d("log_tag","Attempting to http...");
+	        
+	        StringEntity params =new StringEntity(Request.toString());
+	        httppost.addHeader("content-type", "application/x-www-form-urlencoded");
+	        httppost.setEntity(params);
+	        Log.d("log_tag","Params: " + params);
 	        
 	        HttpResponse response = httpclient.execute(httppost);
 	        HttpEntity entity = response.getEntity();
@@ -86,15 +79,32 @@ public class JSONfunctions extends AsyncTask<String, Integer, Long> {
 	    } catch (JSONException e) {
 	        Log.e("log_tag", "Error parsing data " + e.toString());
 	    }
-//	    return jArray;
-	    Log.d("log_tag","Reached end of thing...");
-	    Log.d("log_tag","Message is: " + jArray.toString());
-	    JArray = jArray;
+
+	    Log.d("log_tag","Received object is: " + jArray.toString());
+	    Response = jArray;
 		return null;
 	}	
 	
-	public static JSONObject getJSONobject(){
-		return JArray;
+	public static JSONObject getResponseObject(){
+		// TODO Make this better... use the onPostExecute() function..
+		JSONObject dummy = Response;
+		Response = null;
+		return dummy;
 	}
+	
+	public static void setRequestObject(JSONObject request){
+		Request = request;
+		Log.d("log_tag","Request in class: " + Request.toString());
+	}
+	
+	protected void onProgressUpdate(Integer... progress) {
+//        setProgressPercent(progress[0]);
+    }
+
+    protected void onPostExecute(Long result) {
+//        showDialog("Downloaded " + result + " bytes");
+    	
+    }
+	
 	
 	}
