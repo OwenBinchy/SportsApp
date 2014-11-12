@@ -11,30 +11,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
 	
 	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-	JSONObject jsonobject;
+	public final static String EXTRA_PREFIX = "com.example.SportsApp.";
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        
-//    	jsonobject = JSONfunctions.getJSONfromURL("http://csiserver.ucd.ie/~09333541/sportsapp/profiles/checkProfileExists.php");
-//        jsonobject = new JSONObject().put("JSON", "Hello, World!");
-//        myString = new JSONObject().put("JSON", "Hello, World!").toString()
-//        try {
-//			jsonobject = new JSONObject().put("MESSAGE", "Hello, World!");
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//        jsonobject = JSONfunctions.getJSONfromURL("http://csiserver.ucd.ie/~09333541/sportsapp/profiles/checkProfileExists.php");
-        
-        
+        TextView text_userID 	= (TextView) findViewById(R.id.userID);
+        text_userID.setText("12345678");
     }
 
     public void sendMessage(View view) {
@@ -69,12 +60,13 @@ public class MainActivity extends ActionBarActivity {
     	
     	new JSONfunctions().execute("http://csiserver.ucd.ie/~09333541/sportsapp/profiles/checkProfileExists.php");
 
-    	JSONObject jsonobject = null;
-    	while (jsonobject == null){
-    		jsonobject = JSONfunctions.getResponseObject();
+    	JSONObject response = null;
+    	while (response == null){
+    		response = JSONfunctions.getResponseObject();
     	}
+    	
     	try {
-			message = jsonobject.getString("message");
+			message = response.getString("message");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,6 +74,16 @@ public class MainActivity extends ActionBarActivity {
     	intent.putExtra(EXTRA_MESSAGE, message);
     	startActivity(intent);
     }
+    
+    
+    public void viewProfile(View view) {
+        // Do something in response to button
+    	Intent intent = new Intent(this, DisplayProfileActivity.class);
+    	EditText userID = (EditText) findViewById(R.id.userID);
+    	intent.putExtra(EXTRA_PREFIX + "userID", userID.getText().toString());
+    	startActivity(intent);
+    }
+    
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

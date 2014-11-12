@@ -13,7 +13,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -24,13 +23,13 @@ import android.util.Log;
 
 
 public class JSONfunctions extends AsyncTask<String, Integer, Long> {
+	
 	private static JSONObject Response = null;
-	private static JSONObject Request = null;
+	private static JSONObject Request  = null;
 	
 	
 	@Override
 	protected Long doInBackground(String... urls) {
-		// TODO Auto-generated method stub
 		InputStream is = null;
 	    String result = "";
 	    JSONObject jArray = null;
